@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Constants } from 'expo';
 import { Button, SearchBar, Card, Tile, Header, PricingCard, Divider, Text } from 'react-native-elements'; // 0.19.0
-
+import { Actions } from 'react-native-router-flux';
 import "@expo/vector-icons"; // 6.2.2
 
 export default class Menu extends Component {
@@ -18,58 +18,14 @@ export default class Menu extends Component {
         />
 
         <View style={styles.container}>
-
-          <Text h4 style={styles.title}>Facturass Recientes</Text>
-
-          <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} >
-
-
-
-            <PricingCard
-              color='#4f9deb'
-              title='Starbucks'
-              price='$45'
-              info={['']}
-            
-              button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
-            />
-
-            <PricingCard
-              color='#4f9deb'
-              title='Best Buy'
-              price='$880'
-              info={['']}
-           
-              button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
-            />
-            <PricingCard
-              color='#4f9deb'
-              title='VIPS'
-              price='$440'
-              info={['']}
-             
-              button={{ title: 'GET STARTED', icon: 'flight-takeoff' }}
-            />
-
-
-
-
-
-          </ScrollView>
-
-
-
-
           <ScrollView showsVerticalScrollIndicator={false} >
-
-
             <Card style={styles.carta}
               backgroundColor='#00b894'
               image={{ uri: 'http://xabes.com/wp-content/uploads/2016/07/starbucks-banner.jpg' }}>
               <Button
                 icon={{ name: 'visibility' }}
                 backgroundColor='#00b894'
-                
+                onPress={() => Actions.camera()}
                 fontWeight='900'
                 buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                 title='CREAR FACTURA' />
