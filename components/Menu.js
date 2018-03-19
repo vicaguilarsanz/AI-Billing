@@ -6,6 +6,11 @@ import { Actions } from 'react-native-router-flux';
 import "@expo/vector-icons"; // 6.2.2
 
 export default class Menu extends Component {
+  state = {
+    imageUri: null,
+    label: null,
+  }
+
   render() {
     return (
 
@@ -25,12 +30,10 @@ export default class Menu extends Component {
               <Button
                 icon={{ name: 'visibility' }}
                 backgroundColor='#00b894'
-                onPress={() => Actions.camera()}
+                onPress={this._pickImage}
                 fontWeight='900'
                 buttonStyle={{ borderRadius: 0, marginLeft: 0, marginRight: 0, marginBottom: 0 }}
                 title='CREAR FACTURA' />
-
-
             </Card>
 
             <Card style={styles.carta}
@@ -78,24 +81,66 @@ export default class Menu extends Component {
 
     );
   }
+
+  _pickImage = async () => {
+    const {
+      cancelled,
+      uri,
+      base64,
+    } = await Expo.ImagePicker.launchCameraAsync({
+        base64: true,
+      });
+    if (!cancelled) {
+      this.setState({
+        imageUri: uri,
+        label: '(loading...)',
+      });
+    }
+
+    const body = {
+      requests: [
+        {
+          image: {
+            content: base64,
+          },
+          features: [
+            {
+              type: 'DOCUMENT_TEXT_DETECTION'
+            }
+          ]
+        },
+      ],
+    };
+
+    const key = 'AIzaSyApjfIGIOAte6tPn0DnRb-8xoJcYF1FF1k';
+    const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    const parsed = await response.json();
+    // console.log(parsed);
+    this.setState({
+      label: parsed.responses[0].textAnnotations[0].description,
+    });
+    console.log(this.state.label);
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#ecf0f1',
-
-
-
   },
 
   container2: {
     flex: 1,
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#00b894',
-
-
-
   },
   tiltle: {
     alignItems: "center"
