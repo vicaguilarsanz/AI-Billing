@@ -112,7 +112,7 @@ export default class Menu extends Component {
       ],
     };
 
-    const key = 'AIzaSyApjfIGIOAte6tPn0DnRb-8xoJcYF1FF1k';
+    const key = '';
     const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
       method: 'POST',
       headers: {
@@ -128,6 +128,7 @@ export default class Menu extends Component {
       label: parsed.responses[0].textAnnotations[0].description,
     });
     console.log(this.state.label);
+    Actions.confirm({ text: this.state.label });
   }
 }
 
