@@ -112,6 +112,22 @@ export default class Menu extends Component {
       ],
     };
 
+    const cuerpo = {
+      State: "Init",
+      Action: "facturas_s_193612800",
+      User: { "Email": "victor.aguilars@softtek.com@softtek.com" },
+      JsonParams: [
+        [
+          { Type: "Value", Value: "url" },
+          { Type: "Value", Value: "rfc" },
+          { Type: "Value", Value: "ticket" },
+          { Type: "Value", Value: "tienda" },
+          { Type: "Value", Value: "fecha" },
+          { Type: "Value", Value: "email" }
+        ]
+      ]
+    }
+
     const key = '';
     const response = await fetch(`https://vision.googleapis.com/v1/images:annotate?key=${key}`, {
       method: 'POST',
@@ -122,12 +138,25 @@ export default class Menu extends Component {
       body: JSON.stringify(body),
     });
 
+/*
+    const response2 = await fetch(`http://automationplatform.azurewebsites.net/api/runprocess`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(cuerpo),
+    });
+*/
     const parsed = await response.json();
     // console.log(parsed);
+    // const parsed = await response2.json();
+    // console.log(parsed);
+
     this.setState({
       label: parsed.responses[0].textAnnotations[0].description,
     });
     console.log(this.state.label);
+
     Actions.confirm({ text: this.state.label });
   }
 }
